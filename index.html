@@ -21,7 +21,7 @@
 <x-dc>
 <helmet>
 <title>Lysning™ – viden, øvelser og overblik efter en hjerneskade</title>
-<style>@font-face{font-family:'Atkinson Hyperlegible';font-style:normal;font-weight:400;font-display:swap;src:url("/assets/6b4a00d8-5f32-44c9-b290-c6e2ff309f53.woff2") format('woff2')}@font-face{font-family:'Atkinson Hyperlegible';font-style:normal;font-weight:700;font-display:swap;src:url("/assets/2ff7d2d5-53b3-4229-ab38-d819b3809aff.woff2") format('woff2')}@font-face{font-family:'Source Serif 4';font-style:normal;font-weight:500 600;font-display:swap;src:url("/assets/0efae27f-d131-4f5e-9aa9-bc20a64b06ac.woff2") format('woff2')}html{scroll-behavior:smooth}body{margin:0;background:#F6F4EF;color:#14191E;font-family:'Atkinson Hyperlegible',system-ui,sans-serif;-webkit-font-smoothing:antialiased}*{box-sizing:border-box}a{color:#B8432F}a:hover{color:#8F3022}input,select,textarea,button{font-family:inherit}input:focus,select:focus,textarea:focus{outline:2px solid #14191E;outline-offset:1px}</style>
+<style>@font-face{font-family:'Atkinson Hyperlegible';font-style:normal;font-weight:400;font-display:swap;src:url("/assets/6b4a00d8-5f32-44c9-b290-c6e2ff309f53.woff2") format('woff2')}@font-face{font-family:'Atkinson Hyperlegible';font-style:normal;font-weight:700;font-display:swap;src:url("/assets/2ff7d2d5-53b3-4229-ab38-d819b3809aff.woff2") format('woff2')}@font-face{font-family:'Source Serif 4';font-style:normal;font-weight:500 600;font-display:swap;src:url("/assets/0efae27f-d131-4f5e-9aa9-bc20a64b06ac.woff2") format('woff2')}html{scroll-behavior:smooth}body{margin:0;background:#F6F4EF;color:#14191E;font-family:'Atkinson Hyperlegible',system-ui,sans-serif;-webkit-font-smoothing:antialiased}*{box-sizing:border-box}a{color:#B8432F}a:hover{color:#8F3022}input,select,textarea,button{font-family:inherit}input:focus,select:focus,textarea:focus{outline:2px solid #14191E;outline-offset:1px}.lys-burger{display:none}@media (max-width:960px){.lys-burger{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:12px;border:1.5px solid #CFCAC0;background:#FFFFFF;color:#14191E;cursor:pointer;padding:0}.lys-nav{display:none!important;order:3;width:100%;flex-direction:column;align-items:stretch!important;gap:2px;padding:4px 0 8px}.lys-nav.open{display:flex!important}.lys-nav a{padding:12px!important;font-size:17px!important}.lys-cta{padding:0 14px!important}}@media (max-width:400px){header>div{padding:10px 16px!important;gap:8px!important}.lys-cta{padding:0 10px!important;font-size:14px!important}}</style>
 </helmet>
 <div style="min-height:100vh;background:#F6F4EF">
 
@@ -29,11 +29,12 @@
 <header style="position:sticky;top:0;z-index:20;background:rgba(246,244,239,.94);backdrop-filter:blur(10px);border-bottom:1px solid #E3DFD7">
 <div style="max-width:1200px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:12px 16px;flex-wrap:wrap">
 <a href="#/" sc-camel-on-click="{{ goHome }}" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:#14191E;margin-right:auto"><img src="/assets/25a908d1-df79-4f05-94ae-09e67a71cb06.svg" alt="" style="width:36px;height:36px"><span style="font:600 24px 'Source Serif 4',serif">Lysning</span></a>
-<nav style="display:flex;gap:2px;flex-wrap:wrap;align-items:center">
+<nav id="lys-nav" class="lys-nav{{ navOpenCls }}" style="display:flex;gap:2px;flex-wrap:wrap;align-items:center">
 <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="5"><a href="{{ n.href }}" sc-camel-on-click="{{ n.go }}" style="padding:9px 10px;border-radius:10px;color:#14191E;text-decoration:none;font-weight:700;font-size:15px;white-space:nowrap;background:{{ n.bg }}">{{ n.short }}</a></sc-for>
-<a href="#/om-lysning" style="padding:9px 10px;border-radius:10px;color:#14191E;text-decoration:none;font-weight:700;font-size:15px;white-space:nowrap;background:{{ omBg }}">Om</a>
+<a href="#/om-lysning" sc-camel-on-click="{{ closeMenu }}" style="padding:9px 10px;border-radius:10px;color:#14191E;text-decoration:none;font-weight:700;font-size:15px;white-space:nowrap;background:{{ omBg }}">Om</a>
 </nav>
-<button sc-camel-on-click="{{ toForm }}" style="height:44px;padding:0 16px;white-space:nowrap;border-radius:12px;border:none;background:#14191E;color:#F6F4EF;font-weight:700;font-size:15px;cursor:pointer">{{ headerCta }}</button>
+<button class="lys-cta" sc-camel-on-click="{{ toForm }}" style="height:44px;padding:0 16px;white-space:nowrap;border-radius:12px;border:none;background:#14191E;color:#F6F4EF;font-weight:700;font-size:15px;cursor:pointer">{{ headerCta }}</button>
+<button class="lys-burger" sc-camel-on-click="{{ toggleMenu }}" aria-controls="lys-nav" aria-expanded="{{ menuOpen }}" aria-label="{{ menuLabel }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="{{ menuIconPath }}"></path></svg></button>
 </div>
 </header>
 
@@ -383,15 +384,15 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script="" data-props="{&quot;heroImages&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Indhold&quot;}}">
 class Component extends DCLogic {
-  state = { page: 'home', wl: { email: '', role: 'ramt', consent: false, sent: false }, ct: { name: '', org: '', email: '', phone: '', topic: '', msg: '', sent: false } };
+  state = { page: 'home', wl: { email: '', role: 'ramt', consent: false, sent: false }, ct: { name: '', org: '', email: '', phone: '', topic: '', msg: '', sent: false }, menu: false };
   PAGES = [['ramte','ramt','Ramte','#FF9F8F','Forstå skaden, træn i dit eget tempo, og følg din udvikling.'],['paaroerende','paar','Pårørende','#C3B6EE','Din egen app med viden, råd og overblik over din egen belastning.'],['sundhedspersoner','sund','Sundhedspersoner','#9ED4B4','Overblik over symptomer og træning mellem konsultationerne.'],['kommuner-og-regioner','kom','Kommuner og regioner','#A9D2F5','Sammenhæng fra hospital til hjem og vej til jeres egne tilbud.'],['arbejdsgivere','arb','Arbejdsgivere','#F2C98A','Gradvis tilbagevenden med et fælles grundlag for opfølgning.']];
-  fromHash = () => { const s = (location.hash || '').replace(/^#\/?/, ''); const p = this.PAGES.find(x => x[0] === s); const page = p ? p[1] : s === 'om-lysning' ? 'om' : s === 'privatlivspolitik' ? 'priv' : 'home'; this.setState(st => ({ page, wl: { ...st.wl, role: page === 'paar' ? 'paar' : page === 'ramt' ? 'ramt' : st.wl.role } })); };
+  fromHash = () => { const s = (location.hash || '').replace(/^#\/?/, ''); const p = this.PAGES.find(x => x[0] === s); const page = p ? p[1] : s === 'om-lysning' ? 'om' : s === 'privatlivspolitik' ? 'priv' : 'home'; this.setState(st => ({ page, menu: false, wl: { ...st.wl, role: page === 'paar' ? 'paar' : page === 'ramt' ? 'ramt' : st.wl.role } })); };
   componentDidMount() { this.fromHash(); this._h = () => { this.fromHash(); window.scrollTo(0, 0); }; window.addEventListener('hashchange', this._h); }
   componentWillUnmount() { window.removeEventListener('hashchange', this._h); }
   scrollToId = id => { const el = document.getElementById(id); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - ((document.querySelector('header')||{}).offsetHeight||70) - 16, behavior: 'smooth' }); };
   renderVals() {
     const s = this.state, pg = s.page, okMail = v => /\S+@\S+\.\S+/.test(v);
-    const nav = this.PAGES.map(([slug, k, label, color, text]) => ({ label, short: k === 'kom' ? 'Kommuner' : label, color, text, href: '#/' + slug, bg: pg === k ? '#ECE8E0' : 'transparent', go: () => {} }));
+    const nav = this.PAGES.map(([slug, k, label, color, text]) => ({ label, short: k === 'kom' ? 'Kommuner' : label, color, text, href: '#/' + slug, bg: pg === k ? '#ECE8E0' : 'transparent', go: () => this.setState({ menu: false }) }));
     const isCit = pg === 'ramt' || pg === 'paar', isPro = ['sund','kom','arb'].includes(pg);
     const topics = { sund: ['Deltage i et pilotforløb','Faglig sparring om indhold','Mere information','Andet'], kom: ['Pilotforløb','Visning af lokale tilbud','Mere information'], arb: ['Mere information','Andet'], home: ['Pilotforløb','Faglig sparring','Mere information','Presse','Andet'], om: ['Faglig sparring','Test og feedback','Samarbejde','Investering eller sponsorat','Andet'] }[isPro ? pg : pg === 'om' ? 'om' : 'home'];
     const ctx = { sund: ['Sundhedspersoner','Kontakt os','Vil du høre mere, deltage i et pilotforløb eller give faglig sparring på indholdet? Skriv til os.','Hospital, klinik eller praksis'], kom: ['Kommuner og regioner','Kontakt os om et pilotforløb','Vi vil gerne høre fra kommuner og regioner, der vil afprøve Lysning™ med deres borgere.','Kommune eller region'], arb: ['Arbejdsgivere','Få mere at vide','Skriv til os, hvis I vil høre, hvordan Lysning™ kan støtte en medarbejder tilbage til arbejdet.','Virksomhed'], home: ['Organisationer','Kontakt os','Hospitaler, kommuner, regioner, arbejdspladser og foreninger er velkomne til at skrive.','Organisation'], om: ['Vær med','Kontakt mig','Uanset hvordan du kan hjælpe, hører jeg gerne fra dig.','Organisation (valgfrit)'] }[isPro ? pg : pg === 'om' ? 'om' : 'home'];
@@ -404,7 +405,10 @@ class Component extends DCLogic {
       goHome: () => {},
       isHome: pg === 'home', isRamt: pg === 'ramt', isPaar: pg === 'paar', isSund: pg === 'sund', isKom: pg === 'kom', isArb: pg === 'arb', isOm: pg === 'om', isPriv: pg === 'priv', showForms: pg !== 'priv', isPro, omBg: pg === 'om' ? '#ECE8E0' : 'transparent',
       headerCta: isPro ? 'Kontakt os' : 'Skriv dig op',
-      toForm: () => this.scrollToId(isPro ? 'kontakt' : 'venteliste'), toContact: () => this.scrollToId('kontakt'),
+      toForm: () => { this.setState({ menu: false }); this.scrollToId(isPro ? 'kontakt' : 'venteliste'); },
+      menuOpen: s.menu ? 'true' : 'false', navOpenCls: s.menu ? ' open' : '', menuLabel: s.menu ? 'Luk menu' : 'Åbn menu',
+      menuIconPath: s.menu ? 'M6 6l12 12M18 6L6 18' : 'M4 7h16M4 12h16M4 17h16',
+      toggleMenu: () => this.setState(st => ({ menu: !st.menu })), closeMenu: () => this.setState({ menu: false }), toContact: () => this.scrollToId('kontakt'),
       showWaitlist: !isPro, showContact: !isCit,
       wl: s.wl, wlNotSent: !s.wl.sent, wlSent: s.wl.sent,
       wlRoles: [['ramt','Ramt af en hjerneskade'],['paar','Pårørende']].map(([k, label]) => ({ label, bg: s.wl.role === k ? '#14191E0F' : '#FFFFFF', border: s.wl.role === k ? '#14191E' : '#CFCAC0', pick: () => setWl({ role: k }) })),

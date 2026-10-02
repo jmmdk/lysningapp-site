@@ -5,7 +5,7 @@ viser browseren siden med det samme, og filerne kan caches hver for sig.
 
 Kør fra repo-roden:  python tools/unbundle.py
 """
-import base64, gzip, json, re, shutil
+import base64, gzip, json, re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -19,8 +19,7 @@ block = lambda name: json.loads(re.search(
     r'<script type="__bundler/%s">(.*?)</script>' % name, s, re.S).group(1))
 manifest, template = block('manifest'), block('template')
 
-shutil.rmtree(ASSETS, ignore_errors=True)
-ASSETS.mkdir()
+ASSETS.mkdir(exist_ok=True)  # Dropbox kan låse mappen, så den slettes ikke
 paths = {}
 for uuid, entry in manifest.items():
     data = base64.b64decode(entry['data'])
@@ -30,6 +29,9 @@ for uuid, entry in manifest.items():
     (ASSETS / name).write_bytes(data)
     paths[uuid] = f'/assets/{name}'
     template = template.replace(uuid, paths[uuid])
+for f in ASSETS.iterdir():  # fjern assets, der ikke længere er i bundlen
+    if f'/assets/{f.name}' not in paths.values():
+        f.unlink()
 
 # React hentes lokalt i stedet for fra unpkg (ingen tredjepartskald).
 resources = {e['id']: paths[e['uuid']] for e in block('ext_resources')}
