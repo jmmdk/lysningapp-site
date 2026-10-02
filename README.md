@@ -1,9 +1,11 @@
 # lysningapp.dk – deploy til GitHub Pages
 
-Statisk, færdigbygget side. Ingen build-trin.
+Statisk side. Kilden er Claude Design-bundlen i `src/`; `index.html` og `assets/` genereres med `python tools/unbundle.py`.
 
 ## Indhold
-- `index.html` – hele sitet i én fil (skrifttyper og billeder er indlejret, ingen tredjepartskald)
+- `src/lysning.bundle.html` – kildefilen: Claude Design-eksporten (alt i én fil). Ret her.
+- `tools/unbundle.py` – pakker bundlen ud til `index.html` + `assets/`, så siden vises med det samme uden indlæsningsskærm
+- `index.html`, `assets/` – genererede filer (skrifttyper, billeder og React ligger lokalt, ingen tredjepartskald)
 - `CNAME` – custom domæne: lysningapp.dk
 - `.nojekyll` – slår Jekyll fra på GitHub Pages
 - `404.html` – sender ukendte stier til forsiden
@@ -36,6 +38,9 @@ Undersider bruger hash-routing (`/#/ramte`, `/#/paaroerende`, `/#/sundhedsperson
 Det kan tage op til 24 timer, før DNS og HTTPS-certifikat er på plads. Verificér gerne domænet under GitHub → Settings → Pages → "Verified domains" for at undgå domæne-kapring.
 
 ## Formularer (Formspree)
-Venteliste og kontakt sender JSON med `fetch` til Formspree (konstanten `FORMSPREE` i `index.html`, søg efter `formspree.io/f/`). Begge formularer bruger samme Formspree-form; feltet `formular` er `Venteliste` eller `Kontakt`. Svar-til sættes automatisk til afsenderens e-mail.
+Venteliste og kontakt sender JSON med `fetch` til Formspree (konstanten `FORMSPREE` i `src/lysning.bundle.html`, søg efter `formspree.io/f/`). Begge formularer bruger samme Formspree-form; feltet `formular` er `Venteliste` eller `Kontakt`. Svar-til sættes automatisk til afsenderens e-mail.
 
-Skift Formspree-form: erstat ID'et efter `https://formspree.io/f/` i `index.html`, commit og push.
+Skift Formspree-form: erstat ID'et efter `https://formspree.io/f/` i `src/lysning.bundle.html`, kør `python tools/unbundle.py`, commit og push.
+
+## Ny eksport fra Claude Design
+Gem den nye eksport som `src/lysning.bundle.html`, genindsæt Formspree-koden i `sendWl`/`sendCt` (se git-historikken), og kør `python tools/unbundle.py`.
