@@ -51,3 +51,10 @@ Gem den nye eksport som `src/lysning.bundle.html`, genindsæt Formspree-koden i 
 3. `python tools/replace_screens.py screens` (kræver `pip install pillow`) og `python tools/unbundle.py`.
 
 Hvis prototypens knaptekster ændrer sig, skal navigationen i `tools/screenshots.mjs` rettes.
+
+## App-sider (ikke linket fra sitet)
+Bruges af appen og App Store/Google Play. Kilden ligger i app-repo'et (`website/`); kopiér dem herind ved ændringer.
+- `privatlivspolitik.html` → https://lysningapp.dk/privatlivspolitik.html
+- `vilkaar.html` → https://lysningapp.dk/vilkaar.html
+
+Websitets egen privatlivspolitik er en anden side: https://lysningapp.dk/#/privatlivspolitik
