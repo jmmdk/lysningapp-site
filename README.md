@@ -48,6 +48,7 @@ Gem den nye eksport som `src/lysning.bundle.html`, genindsæt Formspree-koden i 
 ## Opdatér app-skærmbilleder fra prototypen
 1. Server den nyeste Claude Design-prototype (`Lysning App.html`) lokalt, fx `python -m http.server 8766` i dens mappe.
 2. `npm i puppeteer-core` (kræver installeret Chrome), og kør `node tools/screenshots.mjs screens`.
+   Med rigtige øvelsesbilleder og profilbilleder: `node store-screenshots/capture.mjs site screens` (kræver billederne i `store-screenshots/src/`, som ikke ligger i git).
 3. `python tools/replace_screens.py screens` (kræver `pip install pillow`) og `python tools/unbundle.py`.
 
 Hvis prototypens knaptekster ændrer sig, skal navigationen i `tools/screenshots.mjs` rettes.
